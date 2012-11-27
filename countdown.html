@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+ <head>
+  <title>Countdown</title>
+  <script>
+    window.onload = function() {
+     var curCount = 0
+       , timeBox = document.getElementById('time')
+       , loopCheck = document.getElementById('loop')
+       , counterDiv = document.getElementById('counter')
+       , resetBtn = document.getElementById('reset')
+       , startBtn = document.getElementById('start')
+       , counterInt
+
+     function updateCounter() {
+      counterDiv.innerHTML = curCount
+     }
+     function reset() {
+      startBtn.disabled = false
+      curCount = parseInt(timeBox.value) || 0
+      clearInterval(counterInt)
+      updateCounter()
+      counterDiv.style.color = '#F00'
+     }
+     function start() {
+      reset()
+      startBtn.disabled = true
+      counterDiv.style.color = '#0F0'
+      counterInt = setInterval(function() {
+       curCount--
+       if (curCount < 0) {
+        if (!loopCheck.checked) {
+         clearInterval(counterInt)
+         reset()
+        } else {
+         curCount = parseInt(timeBox.value) || 0
+        }
+       }
+       updateCounter()
+      }, 1000)
+     }
+     
+     resetBtn.onclick = reset
+     startBtn.onclick = start
+     reset()
+    }
+  </script>
+  <style>
+    #counter {
+     font-size:190px;
+     text-align:center;
+     font-weight:bold;
+     color:#F00;
+    }
+  </style>
+ </head>
+ <body>
+  Tid i sekunder: <input type="text" name="time" id="time" value="30" size="5"><br>
+  Loop: <input type="checkbox" name="loop" id="loop"><br>
+  <button id="reset">Reset</button> <button id="start">Start</button><br>
+  <br>
+  <div id="counter">0</div>
+ </body>
+</html>
